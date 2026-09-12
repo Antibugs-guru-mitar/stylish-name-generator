@@ -22,28 +22,89 @@
 
 <body>
 
-    <!-- Background Effects -->
-    <div class="background">
-        <div class="glow glow-one"></div>
-        <div class="glow glow-two"></div>
-        <div class="stars"></div>
+    <!-- ==================================================
+         FULL SCREEN LOADING SCREEN
+         ================================================== -->
+
+    <div
+        class="loading-screen"
+        id="loadingScreen"
+        aria-hidden="true"
+    >
+
+        <div class="loading-content">
+
+            <div class="loading-logo">
+                ✦
+            </div>
+
+            <div class="loading-spinner-large"></div>
+
+            <h2>
+                Creating Your Style
+            </h2>
+
+            <p id="loadingText">
+                Exploring premium name designs...
+            </p>
+
+            <div class="loading-progress">
+                <span></span>
+            </div>
+
+        </div>
+
     </div>
 
 
-    <!-- Main Website -->
+    <!-- ==================================================
+         BACKGROUND EFFECTS
+         ================================================== -->
+
+    <div class="background">
+
+        <div class="glow glow-one"></div>
+
+        <div class="glow glow-two"></div>
+
+        <div class="stars"></div>
+
+    </div>
+
+
+    <!-- ==================================================
+         MAIN WEBSITE
+         ================================================== -->
+
     <main class="container">
 
-        <!-- Header -->
+
+        <!-- ==================================================
+             HEADER
+             ================================================== -->
+
         <header class="header">
 
             <div class="logo-area">
-                <div class="logo">✦</div>
+
+                <div class="logo">
+                    ✦
+                </div>
 
                 <div>
-                    <h2>Stylish Name</h2>
-                    <span>Generator</span>
+
+                    <h2>
+                        Stylish Name
+                    </h2>
+
+                    <span>
+                        Generator
+                    </span>
+
                 </div>
+
             </div>
+
 
             <div class="header-badge">
                 ✨ Free
@@ -52,7 +113,10 @@
         </header>
 
 
-        <!-- Hero Section -->
+        <!-- ==================================================
+             HERO
+             ================================================== -->
+
         <section class="hero">
 
             <div class="hero-icon">
@@ -64,26 +128,42 @@
             </p>
 
             <h1>
+
                 Turn Your Name Into
-                <span>Something Amazing</span>
+
+                <span>
+                    Something Amazing
+                </span>
+
             </h1>
 
             <p class="hero-text">
+
                 Enter your name and instantly create stylish,
                 fancy and unique versions using premium fonts,
                 creative symbols and special designs.
+
             </p>
 
         </section>
 
 
-        <!-- Generator Box -->
+        <!-- ==================================================
+             MAIN GENERATOR
+             ================================================== -->
+
         <section class="generator-box">
 
             <div class="input-label">
-                <span>✎</span>
+
+                <span>
+                    ✎
+                </span>
+
                 Enter Your Name
+
             </div>
+
 
             <div class="input-area">
 
@@ -94,29 +174,50 @@
                     maxlength="30"
                     autocomplete="off"
                     spellcheck="false"
+                    aria-label="Enter your name"
                 >
 
-                <button id="generateBtn" type="button">
-                    <span>✨</span>
+
+                <button
+                    id="generateBtn"
+                    type="button"
+                >
+
+                    <span>
+                        ✨
+                    </span>
+
                     Generate
+
                 </button>
 
             </div>
 
+
             <div class="input-info">
-                <span>💡</span>
+
+                <span>
+                    💡
+                </span>
+
                 Try your name, nickname or gaming name
+
             </div>
 
         </section>
 
 
-        <!-- Special Style Search -->
+        <!-- ==================================================
+             SPECIAL STYLE SEARCH
+             ================================================== -->
+
         <section class="style-search-section">
+
 
             <div class="section-heading search-heading">
 
                 <div>
+
                     <p class="section-label">
                         FIND YOUR STYLE
                     </p>
@@ -124,7 +225,9 @@
                     <h2>
                         Search Special Styles
                     </h2>
+
                 </div>
+
 
                 <div class="search-badge">
                     🔎 Explore
@@ -141,13 +244,16 @@
                         🔎
                     </span>
 
+
                     <input
                         type="search"
                         id="styleSearch"
                         placeholder="Search styles... e.g. Gaming, Royal, Gothic"
                         autocomplete="off"
                         spellcheck="false"
+                        aria-label="Search name styles"
                     >
+
 
                     <button
                         type="button"
@@ -160,14 +266,19 @@
 
                 </div>
 
+
                 <p class="search-info">
-                    Search for a special style, font or theme you want to try.
+
+                    Search for a special style, font or theme
+                    you want to try.
+
                 </p>
 
             </div>
 
 
-            <!-- Search Loading State -->
+            <!-- SEARCH LOADING -->
+
             <div
                 class="search-loading"
                 id="searchLoading"
@@ -177,25 +288,34 @@
                 <div class="loading-spinner"></div>
 
                 <div>
-                    <strong>Finding styles...</strong>
-                    <span>Exploring the style collection</span>
+
+                    <strong>
+                        Finding styles...
+                    </strong>
+
+                    <span>
+                        Exploring the style collection
+                    </span>
+
                 </div>
 
             </div>
 
 
-            <!-- Search Results -->
+            <!-- SEARCH RESULTS -->
+
             <div
                 class="style-search-results"
                 id="styleSearchResults"
             >
 
-                <!-- JavaScript will add matching styles here -->
+                <!-- JavaScript will add matching styles -->
 
             </div>
 
 
-            <!-- No Search Results -->
+            <!-- NO SEARCH RESULTS -->
+
             <div
                 class="no-search-results"
                 id="noSearchResults"
@@ -206,11 +326,15 @@
                     🔍
                 </div>
 
-                <h3>No matching styles found</h3>
+                <h3>
+                    No matching styles found
+                </h3>
 
                 <p>
-                    Try another keyword such as Gaming, Royal,
-                    Dark, Fire or Gothic.
+
+                    Try another keyword such as Gaming,
+                    Royal, Dark, Fire or Gothic.
+
                 </p>
 
             </div>
@@ -218,12 +342,17 @@
         </section>
 
 
-        <!-- Style Categories -->
+        <!-- ==================================================
+             STYLE CATEGORIES
+             ================================================== -->
+
         <section class="categories-section">
+
 
             <div class="section-heading">
 
                 <div>
+
                     <p class="section-label">
                         EXPLORE COLLECTION
                     </p>
@@ -231,7 +360,9 @@
                     <h2>
                         Style Categories
                     </h2>
+
                 </div>
+
 
                 <div class="category-count">
                     100+ Styles
@@ -247,6 +378,7 @@
                 aria-label="Style categories"
             >
 
+
                 <button
                     type="button"
                     class="category-tab active"
@@ -254,6 +386,7 @@
                 >
                     ✨ All
                 </button>
+
 
                 <button
                     type="button"
@@ -263,6 +396,7 @@
                     🎮 Gaming
                 </button>
 
+
                 <button
                     type="button"
                     class="category-tab"
@@ -270,6 +404,7 @@
                 >
                     👑 Royal
                 </button>
+
 
                 <button
                     type="button"
@@ -279,6 +414,7 @@
                     ☠️ Dark
                 </button>
 
+
                 <button
                     type="button"
                     class="category-tab"
@@ -286,6 +422,7 @@
                 >
                     ⚔️ Warrior
                 </button>
+
 
                 <button
                     type="button"
@@ -295,6 +432,7 @@
                     🔥 Fire
                 </button>
 
+
                 <button
                     type="button"
                     class="category-tab"
@@ -302,6 +440,7 @@
                 >
                     ✨ Fancy
                 </button>
+
 
                 <button
                     type="button"
@@ -311,6 +450,7 @@
                     🔣 Unicode
                 </button>
 
+
                 <button
                     type="button"
                     class="category-tab"
@@ -318,6 +458,7 @@
                 >
                     💕 Love
                 </button>
+
 
                 <button
                     type="button"
@@ -332,12 +473,20 @@
         </section>
 
 
-        <!-- Results Section -->
-        <section class="results-section" id="resultsSection">
+        <!-- ==================================================
+             RESULTS
+             ================================================== -->
+
+        <section
+            class="results-section"
+            id="resultsSection"
+        >
+
 
             <div class="section-heading">
 
                 <div>
+
                     <p class="section-label">
                         YOUR CREATIONS
                     </p>
@@ -345,17 +494,27 @@
                     <h2>
                         Stylish Versions
                     </h2>
+
                 </div>
 
+
                 <div class="result-count">
-                    <span id="resultCount">0</span>
-                    <span id="resultCountLabel">Styles</span>
+
+                    <span id="resultCount">
+                        0
+                    </span>
+
+                    <span id="resultCountLabel">
+                        Styles
+                    </span>
+
                 </div>
 
             </div>
 
 
-            <!-- Active Filter Information -->
+            <!-- ACTIVE FILTER -->
+
             <div
                 class="active-filter"
                 id="activeFilter"
@@ -385,7 +544,8 @@
             </div>
 
 
-            <!-- Results Loading -->
+            <!-- RESULTS LOADING -->
+
             <div
                 class="results-loading"
                 id="resultsLoading"
@@ -394,32 +554,50 @@
 
                 <div class="results-loading-spinner"></div>
 
-                <p>Creating your stylish names...</p>
+                <p>
+                    Creating your stylish names...
+                </p>
+
 
                 <div class="loading-dots">
+
                     <span></span>
                     <span></span>
                     <span></span>
+
                 </div>
 
             </div>
 
 
-            <!-- Results Grid -->
-            <div class="results-grid" id="resultsGrid">
+            <!-- RESULTS GRID -->
 
-                <!-- Empty State -->
-                <div class="empty-state" id="emptyState">
+            <div
+                class="results-grid"
+                id="resultsGrid"
+            >
+
+
+                <!-- EMPTY STATE -->
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                >
 
                     <div class="empty-icon">
                         ✨
                     </div>
 
-                    <h3>Your stylish names will appear here</h3>
+                    <h3>
+                        Your stylish names will appear here
+                    </h3>
 
                     <p>
+
                         Enter a name above and press
                         <strong>Generate</strong>.
+
                     </p>
 
                 </div>
@@ -427,7 +605,8 @@
             </div>
 
 
-            <!-- Load More -->
+            <!-- LOAD MORE -->
+
             <div
                 class="load-more-area"
                 id="loadMoreArea"
@@ -439,35 +618,55 @@
                     id="loadMoreBtn"
                     class="load-more-btn"
                 >
-                    <span>＋</span>
+
+                    <span>
+                        ＋
+                    </span>
+
                     Load More Styles
+
                 </button>
 
+
                 <p class="load-more-info">
-                    Discover more unique designs from the collection.
+
+                    Discover more unique designs
+                    from the collection.
+
                 </p>
 
             </div>
 
 
-            <!-- Results End -->
+            <!-- RESULTS END -->
+
             <div
                 class="results-end"
                 id="resultsEnd"
                 hidden
             >
 
-                <span>✦</span>
+                <span>
+                    ✦
+                </span>
+
                 You've explored all available styles
-                <span>✦</span>
+
+                <span>
+                    ✦
+                </span>
 
             </div>
 
         </section>
 
 
-        <!-- Featured Style -->
+        <!-- ==================================================
+             FEATURED SPECIAL UNICODE
+             ================================================== -->
+
         <section class="featured-style">
+
 
             <div class="featured-style-content">
 
@@ -475,18 +674,24 @@
                     SPECIAL UNICODE
                 </p>
 
+
                 <h2>
                     Try Something Different
                 </h2>
 
+
                 <p>
+
                     Discover creative Unicode combinations
                     that give your name a completely different look.
+
                 </p>
+
 
                 <div class="featured-name">
                     𝅥⃝𝐄𝐕͜͡𝐈𝐋
                 </div>
+
 
                 <span class="featured-label">
                     ✦ Example Special Style
@@ -497,8 +702,12 @@
         </section>
 
 
-        <!-- Features -->
+        <!-- ==================================================
+             FEATURES
+             ================================================== -->
+
         <section class="features">
+
 
             <div class="feature-card">
 
@@ -511,8 +720,10 @@
                 </h3>
 
                 <p>
+
                     Explore a growing collection of fancy,
                     creative and unique name designs.
+
                 </p>
 
             </div>
@@ -529,8 +740,10 @@
                 </h3>
 
                 <p>
+
                     Search for a specific theme,
                     font or style and find it quickly.
+
                 </p>
 
             </div>
@@ -547,8 +760,10 @@
                 </h3>
 
                 <p>
+
                     Generate multiple stylish versions
                     of your name with a smooth experience.
+
                 </p>
 
             </div>
@@ -565,8 +780,10 @@
                 </h3>
 
                 <p>
+
                     Copy your favorite stylish name
                     with one simple tap.
+
                 </p>
 
             </div>
@@ -574,46 +791,89 @@
         </section>
 
 
-        <!-- Popular Uses -->
+        <!-- ==================================================
+             POPULAR USES
+             ================================================== -->
+
         <section class="popular">
+
 
             <p class="section-label">
                 PERFECT FOR
             </p>
 
+
             <h2>
                 Create Names For Anything
             </h2>
 
+
             <p class="popular-text">
+
                 Find unique names for gaming profiles,
                 social media, nicknames and more.
+
             </p>
+
 
             <div class="tags">
 
-                <span>🎮 PUBG</span>
-                <span>🔥 Free Fire</span>
-                <span>📸 Instagram</span>
-                <span>💬 Facebook</span>
-                <span>🎵 TikTok</span>
-                <span>🎮 Gaming</span>
-                <span>👤 Nicknames</span>
-                <span>👑 Clan Names</span>
-                <span>⚔️ Gamer Tags</span>
-                <span>✨ Social Names</span>
+                <span>
+                    🎮 PUBG
+                </span>
+
+                <span>
+                    🔥 Free Fire
+                </span>
+
+                <span>
+                    📸 Instagram
+                </span>
+
+                <span>
+                    💬 Facebook
+                </span>
+
+                <span>
+                    🎵 TikTok
+                </span>
+
+                <span>
+                    🎮 Gaming
+                </span>
+
+                <span>
+                    👤 Nicknames
+                </span>
+
+                <span>
+                    👑 Clan Names
+                </span>
+
+                <span>
+                    ⚔️ Gamer Tags
+                </span>
+
+                <span>
+                    ✨ Social Names
+                </span>
 
             </div>
 
         </section>
 
 
-        <!-- Quick Generator Tips -->
+        <!-- ==================================================
+             QUICK TIPS
+             ================================================== -->
+
         <section class="tips-section">
+
 
             <div class="tips-icon">
                 💡
             </div>
+
 
             <div class="tips-content">
 
@@ -621,9 +881,12 @@
                     Make Your Name Stand Out
                 </h3>
 
+
                 <p>
-                    Try different categories and search for special
-                    styles until you find the perfect look.
+
+                    Try different categories and search for
+                    special styles until you find the perfect look.
+
                 </p>
 
             </div>
@@ -631,29 +894,43 @@
         </section>
 
 
-        <!-- Footer -->
+        <!-- ==================================================
+             FOOTER
+             ================================================== -->
+
         <footer class="footer">
+
 
             <div class="footer-logo">
                 ✦ Stylish Name Generator
             </div>
 
+
             <p>
                 Create your name. Create your style.
             </p>
 
+
             <div class="footer-line"></div>
 
+
             <p class="copyright">
-                © 2026 Stylish Name Generator. All rights reserved.
+
+                © 2026 Stylish Name Generator.
+                All rights reserved.
+
             </p>
 
         </footer>
 
+
     </main>
 
 
-    <!-- JavaScript -->
+    <!-- ==================================================
+         JAVASCRIPT
+         ================================================== -->
+
     <script src="script.js"></script>
 
 </body>
