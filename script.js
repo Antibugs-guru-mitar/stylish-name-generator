@@ -1,23 +1,38 @@
 /* =========================================
    STYLISH NAME GENERATOR
-   PHASE TWO — PROFESSIONAL JAVASCRIPT
+   PHASE TWO — FINAL PROFESSIONAL JAVASCRIPT
    ========================================= */
 
 
-/* ---------- ELEMENTS ---------- */
+/* =====================================================
+   ELEMENTS
+   ===================================================== */
 
 const nameInput = document.getElementById("nameInput");
 const generateBtn = document.getElementById("generateBtn");
+
 const resultsGrid = document.getElementById("resultsGrid");
 const emptyState = document.getElementById("emptyState");
 const resultCount = document.getElementById("resultCount");
 
-
-/* ---------- OPTIONAL NEW ELEMENTS ---------- */
+const resultsSection = document.getElementById("resultsSection");
+const resultsLoading = document.getElementById("resultsLoading");
 
 const styleSearch =
     document.getElementById("styleSearch") ||
     document.getElementById("styleNameSearch");
+
+const clearSearchBtn =
+    document.getElementById("clearSearchBtn");
+
+const searchLoading =
+    document.getElementById("searchLoading");
+
+const styleSearchResults =
+    document.getElementById("styleSearchResults");
+
+const noSearchResults =
+    document.getElementById("noSearchResults");
 
 const moreBtn =
     document.getElementById("moreBtn") ||
@@ -30,10 +45,22 @@ const loadingScreen =
 const loadingText =
     document.getElementById("loadingText");
 
+const activeFilter =
+    document.getElementById("activeFilter");
 
-/* =========================================
+const activeFilterName =
+    document.getElementById("activeFilterName");
+
+const resetFilterBtn =
+    document.getElementById("resetFilterBtn");
+
+const categoryTabs =
+    document.querySelectorAll(".category-tab");
+
+
+/* =====================================================
    BASIC UNICODE MAPS
-   ========================================= */
+   ===================================================== */
 
 
 /* ---------- BOLD ---------- */
@@ -78,7 +105,7 @@ const boldItalicMap = {
 };
 
 
-/* ---------- DOUBLE ---------- */
+/* ---------- DOUBLE STRUCK ---------- */
 
 const doubleMap = {
     A:"𝔸",B:"𝔹",C:"ℂ",D:"𝔻",E:"𝔼",F:"𝔽",G:"𝔾",H:"ℍ",I:"𝕀",J:"𝕁",
@@ -107,7 +134,7 @@ const gothicMap = {
 };
 
 
-/* ---------- SANS ---------- */
+/* ---------- SANS SERIF ---------- */
 
 const sansMap = {
     A:"𝖠",B:"𝖡",C:"𝖢",D:"𝖣",E:"𝖤",F:"𝖥",G:"𝖦",H:"𝖧",I:"𝖨",J:"𝖩",
@@ -168,671 +195,352 @@ const smallCapsMap = {
 };
 
 
-/* =========================================
-   STYLE DEFINITIONS
-   ========================================= */
+/* =====================================================
+   FONT STYLES
+   ===================================================== */
 
 const fontStyles = [
 
-    { name:"Bold", map:boldMap },
-    { name:"Italic", map:italicMap },
-    { name:"Bold Italic", map:boldItalicMap },
-    { name:"Double Struck", map:doubleMap },
-    { name:"Gothic", map:gothicMap },
-    { name:"Sans Serif", map:sansMap },
-    { name:"Monospace", map:monoMap },
-    { name:"Full Width", map:fullwidthMap },
-    { name:"Small Caps", map:smallCapsMap }
+    { name:"Bold", map:boldMap, category:"fancy" },
+
+    { name:"Italic", map:italicMap, category:"fancy" },
+
+    { name:"Bold Italic", map:boldItalicMap, category:"fancy" },
+
+    { name:"Double Struck", map:doubleMap, category:"unicode" },
+
+    { name:"Gothic", map:gothicMap, category:"dark" },
+
+    { name:"Sans Serif", map:sansMap, category:"fancy" },
+
+    { name:"Monospace", map:monoMap, category:"gaming" },
+
+    { name:"Full Width", map:fullwidthMap, category:"fancy" },
+
+    { name:"Small Caps", map:smallCapsMap, category:"fancy" }
 
 ];
 
 
-/* =========================================
-   DECORATED / GAMING STYLES
-   ========================================= */
+/* =====================================================
+   DECORATED / GAMING / PREMIUM STYLES
+   ===================================================== */
 
 const decoratedStyles = [
 
-    {
-        name:"Royal Crown",
-        create:n => `꧁༺ ${n} ༻꧂`
-    },
-
-    {
-        name:"King",
-        create:n => `♛ ${n} ♛`
-    },
-
-    {
-        name:"Queen",
-        create:n => `♕ ${n} ♕`
-    },
-
-    {
-        name:"Star Warrior",
-        create:n => `★彡 ${n} 彡★`
-    },
-
-    {
-        name:"Shadow Wings",
-        create:n => `乂 ${n} 乂`
-    },
-
-    {
-        name:"Diamond Frame",
-        create:n => `『 ${n} 』`
-    },
-
-    {
-        name:"Warrior",
-        create:n => `⚔️ ${n} ⚔️`
-    },
-
-    {
-        name:"Fire",
-        create:n => `꧁🔥 ${n} 🔥꧂`
-    },
-
-    {
-        name:"Dark Shadow",
-        create:n => `☾ ${n} ☽`
-    },
-
-    {
-        name:"Elite",
-        create:n => `亗 ${n} 亗`
-    },
-
-    {
-        name:"Heart",
-        create:n => `♡ ${n} ♡`
-    },
-
-    {
-        name:"Arrow",
-        create:n => `➳ ${n} ➳`
-    },
-
-    {
-        name:"Mystic",
-        create:n => `༒ ${n} ༒`
-    },
-
-    {
-        name:"Dragon",
-        create:n => `𒆜 ${n} 𒆜`
-    },
-
-    {
-        name:"Dark King",
-        create:n => `♚ 『${n}』 ♚`
-    },
-
-    {
-        name:"Golden",
-        create:n => `✦ ${n} ✦`
-    },
-
-    {
-        name:"Night",
-        create:n => `☽ ${n} ☾`
-    },
-
-    {
-        name:"Lightning",
-        create:n => `ϟ ${n} ϟ`
-    },
-
-    {
-        name:"Danger",
-        create:n => `☠ ${n} ☠`
-    },
-
-    {
-        name:"Skull",
-        create:n => `☠︎︎ ${n} ☠︎︎`
-    },
-
-    {
-        name:"Devil",
-        create:n => `😈 ${n} 😈`
-    },
-
-    {
-        name:"Angel",
-        create:n => `☁️ ${n} ☁️`
-    },
-
-    {
-        name:"Love",
-        create:n => `♥ ${n} ♥`
-    },
-
-    {
-        name:"Broken Heart",
-        create:n => `💔 ${n} 💔`
-    },
-
-    {
-        name:"Spark",
-        create:n => `✧･ﾟ ${n} ﾟ･✧`
-    },
-
-    {
-        name:"Galaxy",
-        create:n => `✦⋆｡ﾟ ${n} ﾟ｡⋆✦`
-    },
-
-    {
-        name:"Cosmic",
-        create:n => `⋆｡°✩ ${n} ✩°｡⋆`
-    },
-
-    {
-        name:"Ocean",
-        create:n => `≋≋ ${n} ≋≋`
-    },
-
-    {
-        name:"Wave",
-        create:n => `〰 ${n} 〰`
-    },
-
-    {
-        name:"Storm",
-        create:n => `⚡ ${n} ⚡`
-    },
-
-    {
-        name:"Sword",
-        create:n => `⚔ ${n} ⚔`
-    },
-
-    {
-        name:"Cross",
-        create:n => `✞ ${n} ✞`
-    },
-
-    {
-        name:"Sacred",
-        create:n => `☬ ${n} ☬`
-    },
-
-    {
-        name:"Royal Diamond",
-        create:n => `♢ ${n} ♢`
-    },
-
-    {
-        name:"Circle",
-        create:n => `◉ ${n} ◉`
-    },
-
-    {
-        name:"Target",
-        create:n => `◎ ${n} ◎`
-    },
-
-    {
-        name:"Minimal",
-        create:n => `• ${n} •`
-    },
-
-    {
-        name:"Line",
-        create:n => `─ ${n} ─`
-    },
-
-    {
-        name:"Double Line",
-        create:n => `═ ${n} ═`
-    },
-
-    {
-        name:"Brackets",
-        create:n => `【${n}】`
-    },
-
-    {
-        name:"Japanese Frame",
-        create:n => `『${n}』`
-    },
-
-    {
-        name:"Black Box",
-        create:n => `【★${n}★】`
-    },
-
-    {
-        name:"Arrow King",
-        create:n => `➶ ${n} ➷`
-    },
-
-    {
-        name:"Royal Arrow",
-        create:n => `༺➳ ${n} ➳༻`
-    },
-
-    {
-        name:"Fire King",
-        create:n => `♛🔥 ${n} 🔥♛`
-    },
-
-    {
-        name:"Dark Fire",
-        create:n => `☠︎ ${n} ☠︎`
-    },
-
-    {
-        name:"Red Zone",
-        create:n => `『亗 ${n} 亗』`
-    },
-
-    {
-        name:"Pro Gamer",
-        create:n => `亗『${n}』亗`
-    },
-
-    {
-        name:"Game Master",
-        create:n => `乂⚔ ${n} ⚔乂`
-    },
-
-    {
-        name:"Legend",
-        create:n => `꧁༒ ${n} ༒꧂`
-    },
-
-    {
-        name:"Immortal",
-        create:n => `꧁☬ ${n} ☬꧂`
-    },
-
-    {
-        name:"God Mode",
-        create:n => `『♛』${n}『♛』`
-    },
-
-    {
-        name:"Boss",
-        create:n => `♚ ${n} ♚`
-    },
-
-    {
-        name:"Kingdom",
-        create:n => `♔━━ ${n} ━━♔`
-    },
-
-    {
-        name:"Emperor",
-        create:n => `♛━━ ${n} ━━♛`
-    },
-
-    {
-        name:"Champion",
-        create:n => `🏆 ${n} 🏆`
-    },
-
-    {
-        name:"Winner",
-        create:n => `🏆『${n}』🏆`
-    },
-
-    {
-        name:"VIP",
-        create:n => `♛VIP ${n} VIP♛`
-    },
-
-    {
-        name:"Premium",
-        create:n => `✦『${n}』✦`
-    },
-
-    {
-        name:"Luxury",
-        create:n => `༺✦ ${n} ✦༻`
-    },
-
-    {
-        name:"Diamond King",
-        create:n => `♦ ${n} ♦`
-    },
-
-    {
-        name:"Dark Diamond",
-        create:n => `◆ ${n} ◆`
-    },
-
-    {
-        name:"Black Star",
-        create:n => `★ ${n} ★`
-    },
-
-    {
-        name:"White Star",
-        create:n => `☆ ${n} ☆`
-    },
-
-    {
-        name:"Four Stars",
-        create:n => `✦✧ ${n} ✧✦`
-    },
-
-    {
-        name:"Mystic Star",
-        create:n => `★༒ ${n} ༒★`
-    },
-
-    {
-        name:"Moon King",
-        create:n => `☾♛ ${n} ♛☽`
-    },
-
-    {
-        name:"Moon Light",
-        create:n => `☾⋆ ${n} ⋆☽`
-    },
-
-    {
-        name:"Night King",
-        create:n => `☽亗 ${n} 亗☾`
-    },
-
-    {
-        name:"Ghost",
-        create:n => `𓆩 ${n} 𓆪`
-    },
-
-    {
-        name:"Phantom",
-        create:n => `𓆩༒${n}༒𓆪`
-    },
-
-    {
-        name:"Demon",
-        create:n => `𒁍 ${n} 𒁍`
-    },
-
-    {
-        name:"Dark Lord",
-        create:n => `༒☬ ${n} ☬༒`
-    },
-
-    {
-        name:"Hell",
-        create:n => `⛧ ${n} ⛧`
-    },
-
-    {
-        name:"Venom",
-        create:n => `☣ ${n} ☣`
-    },
-
-    {
-        name:"Poison",
-        create:n => `☠︎☣ ${n} ☣☠︎`
-    },
-
-    {
-        name:"Hunter",
-        create:n => `亗⚔ ${n} ⚔亗`
-    },
-
-    {
-        name:"Sniper",
-        create:n => `⌁〘 ${n} 〙⌁`
-    },
-
-    {
-        name:"Assassin",
-        create:n => `乂☠ ${n} ☠乂`
-    },
-
-    {
-        name:"Ninja",
-        create:n => `々 ${n} 々`
-    },
-
-    {
-        name:"Samurai",
-        create:n => `彡 ${n} 彡`
-    },
-
-    {
-        name:"War Lord",
-        create:n => `⚔༒ ${n} ༒⚔`
-    },
-
-    {
-        name:"Battle",
-        create:n => `⚔︎『${n}』⚔︎`
-    },
-
-    {
-        name:"Power",
-        create:n => `ϟ『${n}』ϟ`
-    },
-
-    {
-        name:"Energy",
-        create:n => `⚡『${n}』⚡`
-    },
-
-    {
-        name:"Electric",
-        create:n => `ϟ⚡ ${n} ⚡ϟ`
-    },
-
-    {
-        name:"Blaze",
-        create:n => `🔥『${n}』🔥`
-    },
-
-    {
-        name:"Inferno",
-        create:n => `༒🔥 ${n} 🔥༒`
-    },
-
-    {
-        name:"Ice",
-        create:n => `❄ ${n} ❄`
-    },
-
-    {
-        name:"Frozen",
-        create:n => `❄️『${n}』❄️`
-    },
-
-    {
-        name:"Snow",
-        create:n => `☃ ${n} ☃`
-    },
-
-    {
-        name:"Nature",
-        create:n => `༄ ${n} ༄`
-    },
-
-    {
-        name:"Leaf",
-        create:n => `❧ ${n} ❧`
-    },
-
-    {
-        name:"Flower",
-        create:n => `❀ ${n} ❀`
-    },
-
-    {
-        name:"Butterfly",
-        create:n => `🦋 ${n} 🦋`
-    },
-
-    {
-        name:"Rose",
-        create:n => `🌹 ${n} 🌹`
-    },
-
-    {
-        name:"Cute",
-        create:n => `♡₊˚ ${n} ˚₊♡`
-    },
-
-    {
-        name:"Sweet",
-        create:n => `꒰ ${n} ꒱`
-    },
-
-    {
-        name:"Soft",
-        create:n => `୨୧ ${n} ୨୧`
-    },
-
-    {
-        name:"Aesthetic",
-        create:n => `⋆｡ﾟ✶ ${n} ✶ﾟ｡⋆`
-    },
-
-    {
-        name:"Dream",
-        create:n => `☁︎⋆ ${n} ⋆☁︎`
-    },
-
-    {
-        name:"Magic",
-        create:n => `✧༺ ${n} ༻✧`
-    },
-
-    {
-        name:"Fantasy",
-        create:n => `꧁✧ ${n} ✧꧂`
-    },
-
-    {
-        name:"Mystery",
-        create:n => `༒『${n}』༒`
-    },
-
-    {
-        name:"Secret",
-        create:n => `⌁ ${n} ⌁`
-    },
-
-    {
-        name:"Hidden",
-        create:n => `◈ ${n} ◈`
-    },
-
-    {
-        name:"Elite Shadow",
-        create:n => `☾亗 ${n} 亗☽`
-    },
-
-    {
-        name:"Dark Elite",
-        create:n => `亗☠ ${n} ☠亗`
-    },
-
-    {
-        name:"Royal Shadow",
-        create:n => `♛☾ ${n} ☽♛`
-    },
-
-    {
-        name:"Ultimate",
-        create:n => `꧁༺⚡ ${n} ⚡༻꧂`
-    },
-
-    {
-        name:"Ultimate King",
-        create:n => `꧁♛ ${n} ♛꧂`
-    },
-
-    {
-        name:"Ultimate Warrior",
-        create:n => `꧁⚔ ${n} ⚔꧂`
-    },
-
-    {
-        name:"Ultimate Fire",
-        create:n => `꧁🔥⚔ ${n} ⚔🔥꧂`
-    }
+    { name:"Royal Crown", create:n=>`꧁༺ ${n} ༻꧂`, category:"royal" },
+
+    { name:"King", create:n=>`♛ ${n} ♛`, category:"royal" },
+
+    { name:"Queen", create:n=>`♕ ${n} ♕`, category:"royal" },
+
+    { name:"Star Warrior", create:n=>`★彡 ${n} 彡★`, category:"warrior" },
+
+    { name:"Shadow Wings", create:n=>`乂 ${n} 乂`, category:"dark" },
+
+    { name:"Diamond Frame", create:n=>`『 ${n} 』`, category:"fancy" },
+
+    { name:"Warrior", create:n=>`⚔️ ${n} ⚔️`, category:"warrior" },
+
+    { name:"Fire", create:n=>`꧁🔥 ${n} 🔥꧂`, category:"fire" },
+
+    { name:"Dark Shadow", create:n=>`☾ ${n} ☽`, category:"dark" },
+
+    { name:"Elite", create:n=>`亗 ${n} 亗`, category:"gaming" },
+
+    { name:"Heart", create:n=>`♡ ${n} ♡`, category:"love" },
+
+    { name:"Arrow", create:n=>`➳ ${n} ➳`, category:"fancy" },
+
+    { name:"Mystic", create:n=>`༒ ${n} ༒`, category:"mystic" },
+
+    { name:"Dragon", create:n=>`𒆜 ${n} 𒆜`, category:"warrior" },
+
+    { name:"Dark King", create:n=>`♚ 『${n}』 ♚`, category:"royal" },
+
+    { name:"Golden", create:n=>`✦ ${n} ✦`, category:"royal" },
+
+    { name:"Night", create:n=>`☽ ${n} ☾`, category:"dark" },
+
+    { name:"Lightning", create:n=>`ϟ ${n} ϟ`, category:"fire" },
+
+    { name:"Danger", create:n=>`☠ ${n} ☠`, category:"dark" },
+
+    { name:"Skull", create:n=>`☠︎︎ ${n} ☠︎︎`, category:"dark" },
+
+    { name:"Devil", create:n=>`😈 ${n} 😈`, category:"dark" },
+
+    { name:"Angel", create:n=>`☁️ ${n} ☁️`, category:"love" },
+
+    { name:"Love", create:n=>`♥ ${n} ♥`, category:"love" },
+
+    { name:"Broken Heart", create:n=>`💔 ${n} 💔`, category:"love" },
+
+    { name:"Spark", create:n=>`✧･ﾟ ${n} ﾟ･✧`, category:"fancy" },
+
+    { name:"Galaxy", create:n=>`✦⋆｡ﾟ ${n} ﾟ｡⋆✦`, category:"mystic" },
+
+    { name:"Cosmic", create:n=>`⋆｡°✩ ${n} ✩°｡⋆`, category:"mystic" },
+
+    { name:"Ocean", create:n=>`≋≋ ${n} ≋≋`, category:"fancy" },
+
+    { name:"Wave", create:n=>`〰 ${n} 〰`, category:"fancy" },
+
+    { name:"Storm", create:n=>`⚡ ${n} ⚡`, category:"fire" },
+
+    { name:"Sword", create:n=>`⚔ ${n} ⚔`, category:"warrior" },
+
+    { name:"Cross", create:n=>`✞ ${n} ✞`, category:"mystic" },
+
+    { name:"Sacred", create:n=>`☬ ${n} ☬`, category:"mystic" },
+
+    { name:"Royal Diamond", create:n=>`♢ ${n} ♢`, category:"royal" },
+
+    { name:"Circle", create:n=>`◉ ${n} ◉`, category:"fancy" },
+
+    { name:"Target", create:n=>`◎ ${n} ◎`, category:"gaming" },
+
+    { name:"Minimal", create:n=>`• ${n} •`, category:"fancy" },
+
+    { name:"Line", create:n=>`─ ${n} ─`, category:"fancy" },
+
+    { name:"Double Line", create:n=>`═ ${n} ═`, category:"fancy" },
+
+    { name:"Brackets", create:n=>`【${n}】`, category:"fancy" },
+
+    { name:"Japanese Frame", create:n=>`『${n}』`, category:"fancy" },
+
+    { name:"Black Box", create:n=>`【★${n}★】`, category:"dark" },
+
+    { name:"Arrow King", create:n=>`➶ ${n} ➷`, category:"royal" },
+
+    { name:"Royal Arrow", create:n=>`༺➳ ${n} ➳༻`, category:"royal" },
+
+    { name:"Fire King", create:n=>`♛🔥 ${n} 🔥♛`, category:"fire" },
+
+    { name:"Dark Fire", create:n=>`☠︎ ${n} ☠︎`, category:"dark" },
+
+    { name:"Red Zone", create:n=>`『亗 ${n} 亗』`, category:"gaming" },
+
+    { name:"Pro Gamer", create:n=>`亗『${n}』亗`, category:"gaming" },
+
+    { name:"Game Master", create:n=>`乂⚔ ${n} ⚔乂`, category:"gaming" },
+
+    { name:"Legend", create:n=>`꧁༒ ${n} ༒꧂`, category:"royal" },
+
+    { name:"Immortal", create:n=>`꧁☬ ${n} ☬꧂`, category:"mystic" },
+
+    { name:"God Mode", create:n=>`『♛』${n}『♛』`, category:"gaming" },
+
+    { name:"Boss", create:n=>`♚ ${n} ♚`, category:"royal" },
+
+    { name:"Kingdom", create:n=>`♔━━ ${n} ━━♔`, category:"royal" },
+
+    { name:"Emperor", create:n=>`♛━━ ${n} ━━♛`, category:"royal" },
+
+    { name:"Champion", create:n=>`🏆 ${n} 🏆`, category:"gaming" },
+
+    { name:"Winner", create:n=>`🏆『${n}』🏆`, category:"gaming" },
+
+    { name:"VIP", create:n=>`♛VIP ${n} VIP♛`, category:"royal" },
+
+    { name:"Premium", create:n=>`✦『${n}』✦`, category:"fancy" },
+
+    { name:"Luxury", create:n=>`༺✦ ${n} ✦༻`, category:"royal" },
+
+    { name:"Diamond King", create:n=>`♦ ${n} ♦`, category:"royal" },
+
+    { name:"Dark Diamond", create:n=>`◆ ${n} ◆`, category:"dark" },
+
+    { name:"Black Star", create:n=>`★ ${n} ★`, category:"dark" },
+
+    { name:"White Star", create:n=>`☆ ${n} ☆`, category:"fancy" },
+
+    { name:"Four Stars", create:n=>`✦✧ ${n} ✧✦`, category:"fancy" },
+
+    { name:"Mystic Star", create:n=>`★༒ ${n} ༒★`, category:"mystic" },
+
+    { name:"Moon King", create:n=>`☾♛ ${n} ♛☽`, category:"royal" },
+
+    { name:"Moon Light", create:n=>`☾⋆ ${n} ⋆☽`, category:"mystic" },
+
+    { name:"Night King", create:n=>`☽亗 ${n} 亗☾`, category:"dark" },
+
+    { name:"Ghost", create:n=>`𓆩 ${n} 𓆪`, category:"dark" },
+
+    { name:"Phantom", create:n=>`𓆩༒${n}༒𓆪`, category:"dark" },
+
+    { name:"Demon", create:n=>`𒁍 ${n} 𒁍`, category:"dark" },
+
+    { name:"Dark Lord", create:n=>`༒☬ ${n} ☬༒`, category:"dark" },
+
+    { name:"Hell", create:n=>`⛧ ${n} ⛧`, category:"dark" },
+
+    { name:"Venom", create:n=>`☣ ${n} ☣`, category:"dark" },
+
+    { name:"Poison", create:n=>`☠︎☣ ${n} ☣☠︎`, category:"dark" },
+
+    { name:"Hunter", create:n=>`亗⚔ ${n} ⚔亗`, category:"warrior" },
+
+    { name:"Sniper", create:n=>`⌁〘 ${n} 〙⌁`, category:"gaming" },
+
+    { name:"Assassin", create:n=>`乂☠ ${n} ☠乂`, category:"warrior" },
+
+    { name:"Ninja", create:n=>`々 ${n} 々`, category:"warrior" },
+
+    { name:"Samurai", create:n=>`彡 ${n} 彡`, category:"warrior" },
+
+    { name:"War Lord", create:n=>`⚔༒ ${n} ༒⚔`, category:"warrior" },
+
+    { name:"Battle", create:n=>`⚔︎『${n}』⚔︎`, category:"warrior" },
+
+    { name:"Power", create:n=>`ϟ『${n}』ϟ`, category:"gaming" },
+
+    { name:"Energy", create:n=>`⚡『${n}』⚡`, category:"fire" },
+
+    { name:"Electric", create:n=>`ϟ⚡ ${n} ⚡ϟ`, category:"fire" },
+
+    { name:"Blaze", create:n=>`🔥『${n}』🔥`, category:"fire" },
+
+    { name:"Inferno", create:n=>`༒🔥 ${n} 🔥༒`, category:"fire" },
+
+    { name:"Ice", create:n=>`❄ ${n} ❄`, category:"mystic" },
+
+    { name:"Frozen", create:n=>`❄️『${n}』❄️`, category:"mystic" },
+
+    { name:"Snow", create:n=>`☃ ${n} ☃`, category:"mystic" },
+
+    { name:"Nature", create:n=>`༄ ${n} ༄`, category:"mystic" },
+
+    { name:"Leaf", create:n=>`❧ ${n} ❧`, category:"love" },
+
+    { name:"Flower", create:n=>`❀ ${n} ❀`, category:"love" },
+
+    { name:"Butterfly", create:n=>`🦋 ${n} 🦋`, category:"love" },
+
+    { name:"Rose", create:n=>`🌹 ${n} 🌹`, category:"love" },
+
+    { name:"Cute", create:n=>`♡₊˚ ${n} ˚₊♡`, category:"love" },
+
+    { name:"Sweet", create:n=>`꒰ ${n} ꒱`, category:"love" },
+
+    { name:"Soft", create:n=>`୨୧ ${n} ୨୧`, category:"love" },
+
+    { name:"Aesthetic", create:n=>`⋆｡ﾟ✶ ${n} ✶ﾟ｡⋆`, category:"fancy" },
+
+    { name:"Dream", create:n=>`☁︎⋆ ${n} ⋆☁︎`, category:"mystic" },
+
+    { name:"Magic", create:n=>`✧༺ ${n} ༻✧`, category:"mystic" },
+
+    { name:"Fantasy", create:n=>`꧁✧ ${n} ✧꧂`, category:"mystic" },
+
+    { name:"Mystery", create:n=>`༒『${n}』༒`, category:"mystic" },
+
+    { name:"Secret", create:n=>`⌁ ${n} ⌁`, category:"dark" },
+
+    { name:"Hidden", create:n=>`◈ ${n} ◈`, category:"dark" },
+
+    { name:"Elite Shadow", create:n=>`☾亗 ${n} 亗☽`, category:"dark" },
+
+    { name:"Dark Elite", create:n=>`亗☠ ${n} ☠亗`, category:"dark" },
+
+    { name:"Royal Shadow", create:n=>`♛☾ ${n} ☽♛`, category:"royal" },
+
+    { name:"Ultimate", create:n=>`꧁༺⚡ ${n} ⚡༻꧂`, category:"gaming" },
+
+    { name:"Ultimate King", create:n=>`꧁♛ ${n} ♛꧂`, category:"royal" },
+
+    { name:"Ultimate Warrior", create:n=>`꧁⚔ ${n} ⚔꧂`, category:"warrior" },
+
+    { name:"Ultimate Fire", create:n=>`꧁🔥⚔ ${n} ⚔🔥꧂`, category:"fire" }
 
 ];
 
 
-/* =========================================
-   SPECIAL CRAZY UNICODE STYLES
-   ========================================= */
+/* =====================================================
+   SPECIAL UNICODE / COMBINING STYLES
+   ===================================================== */
 
 const specialStyles = [
 
     {
         name:"Evil Mark",
-        create:n => `𝅥⃝${convertText(n, boldMap)}͜͡`
+        create:n => `𝅥⃝${convertText(n,boldMap)}͜͡`,
+        category:"unicode"
     },
 
     {
         name:"Evil Crown",
-        create:n => `𝅥⃝${convertText(n, boldMap)}͜͡亗`
+        create:n => `𝅥⃝${convertText(n,boldMap)}͜͡亗`,
+        category:"unicode"
     },
 
     {
         name:"Crazy Glitch",
-        create:n => `̷${n}̷`
+        create:n => `̷${n}̷`,
+        category:"unicode"
     },
 
     {
         name:"Glitch Shadow",
-        create:n => `̸${n}̸`
+        create:n => `̸${n}̸`,
+        category:"unicode"
     },
 
     {
         name:"Overline",
-        create:n => [...n].map(c => c + "̅").join("")
+        create:n => [...n].map(c=>c+"̅").join(""),
+        category:"unicode"
     },
 
     {
         name:"Underline",
-        create:n => [...n].map(c => c + "̲").join("")
+        create:n => [...n].map(c=>c+"̲").join(""),
+        category:"unicode"
     },
 
     {
         name:"Double Underline",
-        create:n => [...n].map(c => c + "̳").join("")
+        create:n => [...n].map(c=>c+"̳").join(""),
+        category:"unicode"
     },
 
     {
         name:"Strike",
-        create:n => [...n].map(c => c + "̶").join("")
+        create:n => [...n].map(c=>c+"̶").join(""),
+        category:"unicode"
     },
 
     {
         name:"Crazy Dots",
-        create:n => [...n].map(c => c + "͘").join("")
+        create:n => [...n].map(c=>c+"͘").join(""),
+        category:"unicode"
     },
 
     {
         name:"Cursed",
-        create:n => [...n].map(c => c + "̴").join("")
+        create:n => [...n].map(c=>c+"̴").join(""),
+        category:"unicode"
     },
 
     {
         name:"Distorted",
-        create:n => [...n].map(c => c + "̷").join("")
+        create:n => [...n].map(c=>c+"̷").join(""),
+        category:"unicode"
     },
 
     {
         name:"Dark Glitch",
-        create:n => `༒${[...n].map(c => c + "̴").join("")}༒`
+        create:n => `༒${[...n].map(c=>c+"̴").join("")}༒`,
+        category:"unicode"
     }
 
 ];
 
 
-/* =========================================
-   COMBINE ALL STYLES
-   ========================================= */
+/* =====================================================
+   ALL STYLES
+   ===================================================== */
 
 const allStyles = [
     ...fontStyles,
@@ -841,11 +549,11 @@ const allStyles = [
 ];
 
 
-/* =========================================
+/* =====================================================
    TEXT CONVERTER
-   ========================================= */
+   ===================================================== */
 
-function convertText(text, map) {
+function convertText(text,map) {
 
     return [...text]
         .map(character => map[character] || character)
@@ -854,9 +562,9 @@ function convertText(text, map) {
 }
 
 
-/* =========================================
-   CREATE ALL GENERATED RESULTS
-   ========================================= */
+/* =====================================================
+   BUILD RESULTS
+   ===================================================== */
 
 function buildResults(originalName) {
 
@@ -868,24 +576,25 @@ function buildResults(originalName) {
 
         if (style.map) {
 
-            styledText = convertText(
-                originalName,
-                style.map
-            );
+            styledText =
+                convertText(
+                    originalName,
+                    style.map
+                );
 
         } else if (style.create) {
 
-            styledText = style.create(
-                originalName
-            );
+            styledText =
+                style.create(originalName);
 
         }
 
         if (styledText) {
 
             results.push({
-                title: style.name,
-                text: styledText
+                title:style.name,
+                text:styledText,
+                category:style.category || "fancy"
             });
 
         }
@@ -897,9 +606,9 @@ function buildResults(originalName) {
 }
 
 
-/* =========================================
+/* =====================================================
    STATE
-   ========================================= */
+   ===================================================== */
 
 let allGeneratedResults = [];
 
@@ -907,20 +616,30 @@ let visibleResults = 30;
 
 let currentSearch = "";
 
+let currentCategory = "all";
 
-/* =========================================
-   LOADING
-   ========================================= */
+let searchTimer = null;
 
-function showLoading() {
+let generationRunning = false;
+
+
+/* =====================================================
+   FULL SCREEN LOADING
+   ===================================================== */
+
+function showLoading(message="Creating your stylish names...") {
 
     if (!loadingScreen) return;
 
     loadingScreen.classList.add("active");
 
+    loadingScreen.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
     if (loadingText) {
-        loadingText.textContent =
-            "Creating your stylish names...";
+        loadingText.textContent = message;
     }
 
 }
@@ -934,14 +653,86 @@ function hideLoading() {
 
         loadingScreen.classList.remove("active");
 
-    }, 150);
+        loadingScreen.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+    },150);
 
 }
 
 
-/* =========================================
+/* =====================================================
+   RESULTS LOADING
+   ===================================================== */
+
+function showResultsLoading() {
+
+    if (!resultsLoading) return;
+
+    resultsLoading.style.display = "flex";
+
+}
+
+
+function hideResultsLoading() {
+
+    if (!resultsLoading) return;
+
+    resultsLoading.style.display = "none";
+
+}
+
+
+/* =====================================================
+   GET FILTERED RESULTS
+   ===================================================== */
+
+function getFilteredResults() {
+
+    let filtered =
+        [...allGeneratedResults];
+
+
+    /* ---------- CATEGORY ---------- */
+
+    if (currentCategory !== "all") {
+
+        filtered =
+            filtered.filter(
+                item =>
+                    item.category === currentCategory
+            );
+
+    }
+
+
+    /* ---------- STYLE SEARCH ---------- */
+
+    if (currentSearch) {
+
+        const search =
+            currentSearch.toLowerCase();
+
+        filtered =
+            filtered.filter(item =>
+                item.title
+                    .toLowerCase()
+                    .includes(search)
+            );
+
+    }
+
+
+    return filtered;
+
+}
+
+
+/* =====================================================
    RENDER RESULTS
-   ========================================= */
+   ===================================================== */
 
 function renderResults() {
 
@@ -949,36 +740,13 @@ function renderResults() {
 
     resultsGrid.innerHTML = "";
 
-    let filteredResults = allGeneratedResults;
-
-    /* ---------- STYLE NAME SEARCH ---------- */
-
-    if (currentSearch) {
-
-        filteredResults =
-            allGeneratedResults.filter(item =>
-                item.title
-                    .toLowerCase()
-                    .includes(currentSearch.toLowerCase())
-            );
-
-    }
+    const filteredResults =
+        getFilteredResults();
 
 
-    /* ---------- VISIBLE LIMIT ---------- */
+    /* ---------- EMPTY ---------- */
 
-    const visible =
-        filteredResults.slice(
-            0,
-            visibleResults
-        );
-
-
-    /* ---------- EMPTY SEARCH ---------- */
-
-    if (
-        filteredResults.length === 0
-    ) {
+    if (filteredResults.length === 0) {
 
         if (emptyState) {
 
@@ -986,13 +754,15 @@ function renderResults() {
 
             emptyState.innerHTML = `
                 <div class="empty-icon">🔎</div>
-                <h3>No style found</h3>
-                <p>Try searching another style name.</p>
+                <h3>No styles found</h3>
+                <p>Try another style name or category.</p>
             `;
 
         }
 
-        resultCount.textContent = "0";
+        if (resultCount) {
+            resultCount.textContent = "0";
+        }
 
         if (moreBtn) {
             moreBtn.style.display = "none";
@@ -1003,24 +773,35 @@ function renderResults() {
     }
 
 
-    if (emptyState) {
+    /* ---------- HIDE EMPTY ---------- */
 
+    if (emptyState) {
         emptyState.style.display = "none";
+    }
+
+
+    /* ---------- VISIBLE RESULTS ---------- */
+
+    const visible =
+        filteredResults.slice(
+            0,
+            visibleResults
+        );
+
+
+    if (resultCount) {
+
+        resultCount.textContent =
+            visible.length;
 
     }
 
 
-    /* ---------- COUNTER ---------- */
-
-    resultCount.textContent =
-        visible.length;
-
-
-    /* =====================================
+    /* =================================================
        CREATE CARDS
-       ===================================== */
+       ================================================= */
 
-    visible.forEach((item, index) => {
+    visible.forEach((item,index) => {
 
         const card =
             document.createElement("article");
@@ -1028,12 +809,11 @@ function renderResults() {
         card.className =
             "result-card";
 
-
         card.style.animationDelay =
             `${index * 0.025}s`;
 
 
-        /* ---------- STYLE TITLE ---------- */
+        /* ---------- TITLE ---------- */
 
         const title =
             document.createElement("div");
@@ -1045,7 +825,7 @@ function renderResults() {
             item.title;
 
 
-        /* ---------- RESULT NAME ---------- */
+        /* ---------- NAME ---------- */
 
         const name =
             document.createElement("div");
@@ -1057,7 +837,7 @@ function renderResults() {
             item.text;
 
 
-        /* ---------- COPY BUTTON ---------- */
+        /* ---------- COPY ---------- */
 
         const copyButton =
             document.createElement("button");
@@ -1085,7 +865,7 @@ function renderResults() {
         );
 
 
-        /* ---------- APPEND ---------- */
+        /* ---------- CARD ---------- */
 
         card.appendChild(title);
 
@@ -1098,9 +878,9 @@ function renderResults() {
     });
 
 
-    /* =====================================
+    /* =================================================
        MORE BUTTON
-       ===================================== */
+       ================================================= */
 
     if (moreBtn) {
 
@@ -1127,11 +907,15 @@ function renderResults() {
 }
 
 
-/* =========================================
+/* =====================================================
    GENERATE NAMES
-   ========================================= */
+   ===================================================== */
 
 function generateNames() {
+
+    if (generationRunning) return;
+
+    if (!nameInput) return;
 
     const originalName =
         nameInput.value.trim();
@@ -1148,37 +932,45 @@ function generateNames() {
 
         setTimeout(() => {
 
-            nameInput.style.borderColor =
-                "";
+            nameInput.style.borderColor = "";
 
-        }, 900);
+        },900);
 
         return;
 
     }
 
 
-    /* ---------- RESET SEARCH ---------- */
+    generationRunning = true;
 
     currentSearch = "";
 
+    currentCategory = "all";
+
     visibleResults = 30;
 
+
+    /* ---------- RESET SEARCH ---------- */
+
     if (styleSearch) {
-
         styleSearch.value = "";
-
     }
 
+    updateClearButton();
 
-    /* ---------- SHOW LOADING ---------- */
-
-    showLoading();
+    resetCategoryTabs();
 
 
-    /* =====================================
-       DELAY FOR PREMIUM LOADING EFFECT
-       ===================================== */
+    /* ---------- LOADING ---------- */
+
+    showLoading(
+        "Exploring premium name designs..."
+    );
+
+
+    /* =================================================
+       PREMIUM 2.3 SECOND GENERATION
+       ================================================= */
 
     setTimeout(() => {
 
@@ -1189,37 +981,45 @@ function generateNames() {
         renderResults();
 
 
+        if (resultCount) {
+
+            resultCount.textContent =
+                Math.min(
+                    30,
+                    allGeneratedResults.length
+                );
+
+        }
+
+
         /* ---------- SCROLL ---------- */
 
         setTimeout(() => {
 
-            const section =
-                document.getElementById(
-                    "resultsSection"
-                );
+            if (resultsSection) {
 
-            if (section) {
-
-                section.scrollIntoView({
+                resultsSection.scrollIntoView({
                     behavior:"smooth",
                     block:"start"
                 });
 
             }
 
-        }, 100);
+        },100);
 
 
         hideLoading();
 
-    }, 2300);
+        generationRunning = false;
+
+    },2300);
 
 }
 
 
-/* =========================================
-   STYLE NAME SEARCH
-   ========================================= */
+/* =====================================================
+   STYLE SEARCH
+   ===================================================== */
 
 function searchStyles() {
 
@@ -1230,16 +1030,403 @@ function searchStyles() {
 
     visibleResults = 30;
 
+    updateClearButton();
+
+
+    /* ---------- NO GENERATED NAME YET ---------- */
+
+    if (
+        allGeneratedResults.length === 0
+    ) {
+
+        showStyleSearchPreview();
+
+        return;
+
+    }
+
+
+    /* ---------- SEARCH LOADING ---------- */
+
+    if (searchTimer) {
+        clearTimeout(searchTimer);
+    }
+
+    if (searchLoading) {
+        searchLoading.style.display = "flex";
+    }
+
+
+    searchTimer =
+        setTimeout(() => {
+
+            renderResults();
+
+            if (searchLoading) {
+                searchLoading.style.display =
+                    "none";
+            }
+
+        },700);
+
+}
+
+
+/* =====================================================
+   STYLE SEARCH PREVIEW
+   ===================================================== */
+
+function showStyleSearchPreview() {
+
+    if (!styleSearchResults) return;
+
+    const query =
+        currentSearch.toLowerCase();
+
+
+    styleSearchResults.innerHTML = "";
+
+
+    if (!query) {
+
+        styleSearchResults.style.display =
+            "none";
+
+        if (noSearchResults) {
+            noSearchResults.style.display =
+                "none";
+        }
+
+        return;
+
+    }
+
+
+    const matches =
+        allStyles
+            .filter(style =>
+                style.name
+                    .toLowerCase()
+                    .includes(query)
+            )
+            .slice(0,12);
+
+
+    if (matches.length === 0) {
+
+        styleSearchResults.style.display =
+            "none";
+
+        if (noSearchResults) {
+            noSearchResults.style.display =
+                "block";
+        }
+
+        return;
+
+    }
+
+
+    if (noSearchResults) {
+        noSearchResults.style.display =
+            "none";
+    }
+
+
+    matches.forEach(style => {
+
+        const item =
+            document.createElement("button");
+
+        item.type = "button";
+
+        item.className =
+            "style-search-result";
+
+        item.textContent =
+            style.name;
+
+        item.addEventListener(
+            "click",
+            () => {
+
+                styleSearch.value =
+                    style.name;
+
+                currentSearch =
+                    style.name;
+
+                updateClearButton();
+
+                if (
+                    allGeneratedResults.length
+                ) {
+
+                    renderResults();
+
+                }
+
+                if (styleSearchResults) {
+                    styleSearchResults.style.display =
+                        "none";
+                }
+
+            }
+        );
+
+        styleSearchResults.appendChild(item);
+
+    });
+
+
+    styleSearchResults.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   CLEAR SEARCH
+   ===================================================== */
+
+function clearStyleSearch() {
+
+    if (!styleSearch) return;
+
+    styleSearch.value = "";
+
+    currentSearch = "";
+
+    visibleResults = 30;
+
+    updateClearButton();
+
+
+    if (searchLoading) {
+        searchLoading.style.display =
+            "none";
+    }
+
+
+    if (styleSearchResults) {
+        styleSearchResults.style.display =
+            "none";
+    }
+
+
+    if (noSearchResults) {
+        noSearchResults.style.display =
+            "none";
+    }
+
+
+    renderResults();
+
+    styleSearch.focus();
+
+}
+
+
+function updateClearButton() {
+
+    if (!clearSearchBtn) return;
+
+    if (
+        styleSearch &&
+        styleSearch.value.trim()
+    ) {
+
+        clearSearchBtn.classList.add(
+            "visible"
+        );
+
+    } else {
+
+        clearSearchBtn.classList.remove(
+            "visible"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CATEGORY FILTER
+   ===================================================== */
+
+function filterByCategory(category) {
+
+    currentCategory =
+        category || "all";
+
+    visibleResults = 30;
+
+
+    /* ---------- ACTIVE TAB ---------- */
+
+    categoryTabs.forEach(tab => {
+
+        tab.classList.toggle(
+            "active",
+            tab.dataset.category ===
+            currentCategory
+        );
+
+    });
+
+
+    /* ---------- FILTER LABEL ---------- */
+
+    const activeTab =
+        [...categoryTabs].find(
+            tab =>
+                tab.dataset.category ===
+                currentCategory
+        );
+
+
+    if (
+        activeFilter &&
+        activeFilterName
+    ) {
+
+        if (
+            currentCategory !== "all"
+        ) {
+
+            activeFilter.style.display =
+                "inline-flex";
+
+            activeFilterName.textContent =
+                activeTab
+                    ? activeTab.textContent.trim()
+                    : currentCategory;
+
+        } else {
+
+            activeFilter.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    renderResults();
+
+
+    /* ---------- SCROLL ---------- */
+
+    if (
+        currentCategory !== "all" &&
+        resultsSection &&
+        allGeneratedResults.length
+    ) {
+
+        setTimeout(() => {
+
+            resultsSection.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        },80);
+
+    }
+
+}
+
+
+/* =====================================================
+   RESET CATEGORY
+   ===================================================== */
+
+function resetCategoryTabs() {
+
+    currentCategory =
+        "all";
+
+    categoryTabs.forEach(tab => {
+
+        tab.classList.toggle(
+            "active",
+            tab.dataset.category === "all"
+        );
+
+    });
+
+
+    if (activeFilter) {
+        activeFilter.style.display =
+            "none";
+    }
+
+}
+
+
+/* =====================================================
+   RESET FILTER BUTTON
+   ===================================================== */
+
+function resetFilters() {
+
+    currentCategory =
+        "all";
+
+    currentSearch =
+        "";
+
+    visibleResults =
+        30;
+
+
+    if (styleSearch) {
+        styleSearch.value = "";
+    }
+
+
+    updateClearButton();
+
+
+    if (styleSearchResults) {
+        styleSearchResults.style.display =
+            "none";
+    }
+
+
+    if (noSearchResults) {
+        noSearchResults.style.display =
+            "none";
+    }
+
+
+    resetCategoryTabs();
+
     renderResults();
 
 }
 
 
-/* =========================================
-   MORE BUTTON
-   ========================================= */
+/* =====================================================
+   MORE STYLES
+   ===================================================== */
 
 function loadMoreStyles() {
+
+    const filteredResults =
+        getFilteredResults();
+
+
+    if (
+        visibleResults >=
+        filteredResults.length
+    ) {
+
+        return;
+
+    }
+
 
     visibleResults += 30;
 
@@ -1248,29 +1435,51 @@ function loadMoreStyles() {
 }
 
 
-/* =========================================
-   COPY FUNCTION
-   ========================================= */
+/* =====================================================
+   COPY NAME
+   ===================================================== */
 
-async function copyName(text, button) {
+async function copyName(text,button) {
+
+    if (!button) return;
 
     try {
 
-        await navigator.clipboard.writeText(text);
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(
+                text
+            );
+
+        } else {
+
+            throw new Error(
+                "Clipboard API unavailable"
+            );
+
+        }
 
         showCopied(button);
 
     } catch (error) {
 
-        /* ---------- FALLBACK ---------- */
-
         const textarea =
             document.createElement("textarea");
 
-        textarea.value = text;
+        textarea.value =
+            text;
 
         textarea.style.position =
             "fixed";
+
+        textarea.style.left =
+            "-9999px";
+
+        textarea.style.top =
+            "0";
 
         textarea.style.opacity =
             "0";
@@ -1286,9 +1495,19 @@ async function copyName(text, button) {
 
         try {
 
-            document.execCommand("copy");
+            const successful =
+                document.execCommand("copy");
 
-            showCopied(button);
+            if (successful) {
+
+                showCopied(button);
+
+            } else {
+
+                button.textContent =
+                    "❌ Failed";
+
+            }
 
         } catch (copyError) {
 
@@ -1307,9 +1526,9 @@ async function copyName(text, button) {
 }
 
 
-/* =========================================
+/* =====================================================
    COPIED STATE
-   ========================================= */
+   ===================================================== */
 
 function showCopied(button) {
 
@@ -1333,14 +1552,14 @@ function showCopied(button) {
             "copied"
         );
 
-    }, 1600);
+    },1600);
 
 }
 
 
-/* =========================================
+/* =====================================================
    GENERATE BUTTON
-   ========================================= */
+   ===================================================== */
 
 if (generateBtn) {
 
@@ -1352,9 +1571,9 @@ if (generateBtn) {
 }
 
 
-/* =========================================
+/* =====================================================
    ENTER KEY
-   ========================================= */
+   ===================================================== */
 
 if (nameInput) {
 
@@ -1376,8 +1595,6 @@ if (nameInput) {
     );
 
 
-    /* ---------- INPUT CLEANUP ---------- */
-
     nameInput.addEventListener(
         "input",
         () => {
@@ -1391,9 +1608,9 @@ if (nameInput) {
 }
 
 
-/* =========================================
+/* =====================================================
    STYLE SEARCH EVENTS
-   ========================================= */
+   ===================================================== */
 
 if (styleSearch) {
 
@@ -1423,9 +1640,23 @@ if (styleSearch) {
 }
 
 
-/* =========================================
-   MORE BUTTON EVENT
-   ========================================= */
+/* =====================================================
+   CLEAR SEARCH EVENT
+   ===================================================== */
+
+if (clearSearchBtn) {
+
+    clearSearchBtn.addEventListener(
+        "click",
+        clearStyleSearch
+    );
+
+}
+
+
+/* =====================================================
+   MORE BUTTON
+   ===================================================== */
 
 if (moreBtn) {
 
@@ -1437,37 +1668,160 @@ if (moreBtn) {
 }
 
 
-/* =========================================
-   INITIAL STATE
-   ========================================= */
+/* =====================================================
+   CATEGORY BUTTONS
+   ===================================================== */
 
-if (resultCount) {
+categoryTabs.forEach(tab => {
 
-    resultCount.textContent =
-        "30";
+    tab.addEventListener(
+        "click",
+        () => {
+
+            const category =
+                tab.dataset.category || "all";
+
+            filterByCategory(category);
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+   RESET FILTER
+   ===================================================== */
+
+if (resetFilterBtn) {
+
+    resetFilterBtn.addEventListener(
+        "click",
+        resetFilters
+    );
 
 }
 
 
-/* =========================================
-   DEBUG / INFO
-   ========================================= */
+/* =====================================================
+   CLICK OUTSIDE SEARCH RESULTS
+   ===================================================== */
 
-/*
-   Total styles available:
-   Font styles
-   + decorated styles
-   + special Unicode styles
-*/
+document.addEventListener(
+    "click",
+    event => {
 
-console.log(
-    `Stylish Name Generator loaded with ${allStyles.length}+ styles.`
+        if (
+            !styleSearchResults ||
+            !styleSearch
+        ) return;
+
+
+        const searchContainer =
+            styleSearch.closest(
+                ".search-input-wrap"
+            );
+
+
+        if (
+            searchContainer &&
+            !searchContainer.contains(event.target)
+        ) {
+
+            styleSearchResults.style.display =
+                "none";
+
+        }
+
+    }
 );
 
 
-/* =========================================
-   OPTIONAL PUBLIC FUNCTIONS
-   ========================================= */
+/* =====================================================
+   ESCAPE KEY
+   ===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            if (
+                styleSearchResults
+            ) {
+
+                styleSearchResults.style.display =
+                    "none";
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INITIAL STATE
+   ===================================================== */
+
+if (resultCount) {
+
+    resultCount.textContent =
+        "0";
+
+}
+
+
+if (moreBtn) {
+
+    moreBtn.style.display =
+        "none";
+
+}
+
+
+if (activeFilter) {
+
+    activeFilter.style.display =
+        "none";
+
+}
+
+
+if (searchLoading) {
+
+    searchLoading.style.display =
+        "none";
+
+}
+
+
+if (noSearchResults) {
+
+    noSearchResults.style.display =
+        "none";
+
+}
+
+
+if (styleSearchResults) {
+
+    styleSearchResults.style.display =
+        "none";
+
+}
+
+
+hideResultsLoading();
+
+
+/* =====================================================
+   PUBLIC FUNCTIONS
+   ===================================================== */
 
 window.generateNames =
     generateNames;
@@ -1481,7 +1835,37 @@ window.loadMoreStyles =
 window.searchStyles =
     searchStyles;
 
+window.clearStyleSearch =
+    clearStyleSearch;
 
-/* =========================================
+window.filterByCategory =
+    filterByCategory;
+
+window.resetFilters =
+    resetFilters;
+
+
+/* =====================================================
+   PROJECT INFORMATION
+   ===================================================== */
+
+console.log(
+    `✨ Stylish Name Generator`
+);
+
+console.log(
+    `🚀 ${allStyles.length} total styles loaded`
+);
+
+console.log(
+    `🎨 Categories: Gaming, Royal, Dark, Warrior, Fire, Fancy, Unicode, Love, Mystic`
+);
+
+console.log(
+    `⚡ Phase Two system ready`
+);
+
+
+/* =====================================================
    END
-   ========================================= */
+   ===================================================== */
